@@ -1,10 +1,16 @@
 from datetime import datetime
 
-class PuntoGeografico:
+ #Esta clase representa un punto geográfico con una latitud y longitud. No tiene métodos adicionales aparte del constructor __init__, que inicializa los atributos latitud y longitud.
+ class PuntoGeografico:                     
     def __init__(self, latitud, longitud):
         self.latitud = latitud
         self.longitud = longitud
-
+        
+        
+#La clase Turno representa un turno en el sistema de gestión de residuos. Cada turno está asociado a una ruta, un camión y un período de tiempo de inicio y fin. Tiene los siguientes métodos:
+#__init__(self, ruta, camion, inicio, fin): Inicializa los atributos ruta, camion, inicio y fin. También crea una lista vacía llamada registros.
+#agregar_registro(self, punto_geografico, tiempo): Agrega un registro a la lista registros. Cada registro consiste en un punto geográfico y un tiempo.
+#obtener_registros(self): Devuelve la lista de registros almacenados en el turno.
 class Turno:
     def __init__(self, ruta, camion, inicio, fin):
         self.ruta = ruta
@@ -19,16 +25,29 @@ class Turno:
     def obtener_registros(self):
         return self.registros
 
+    
+#La clase Camion representa un camión utilizado en el sistema de gestión de residuos. Tiene los siguientes atributos:
+#conductor: El conductor del camión.
+#asistentes: La lista de asistentes del camión.
 class Camion:
     def __init__(self, conductor, asistentes):
         self.conductor = conductor
         self.asistentes = asistentes
 
+        
+#La clase Persona representa una persona en el sistema de gestión de residuos. Tiene los siguientes atributos:
+#identificacion: La identificación de la persona.
+#nombre: El nombre de la persona.
 class Persona:
     def __init__(self, identificacion, nombre):
         self.identificacion = identificacion
         self.nombre = nombre
 
+        
+#La clase CentroAcopio representa un centro de acopio de residuos. Tiene los siguientes métodos:
+#__init__(self): Inicializa un objeto CentroAcopio con una lista vacía de registros.
+#agregar_registro(self, tipo_residuo, toneladas): Agrega un registro al centro de acopio. Cada registro consiste en un tipo de residuo y la cantidad de toneladas.
+#obtener_registro_por_tipo(self, tipo_residuo): Devuelve la cantidad total de toneladas de un tipo de residuo específico, sumando todos los registros que coinciden con el tipo de residuo proporcionado.
 class CentroAcopio:
     def __init__(self):
         self.registros = []
@@ -43,6 +62,14 @@ class CentroAcopio:
                 total += registro[1]
         return total
 
+    
+#La clase TrashCity representa la ciudad de gestión de residuos. Esta clase utiliza el patrón de diseño Singleton para garantizar que solo haya una instancia de TrashCity. Tiene los siguientes métodos:
+#__new__(cls): Crea una nueva instancia de TrashCity si no existe una instancia previa.
+#agregar_turno(self, turno): Agrega un turno a la lista de turnos de la ciudad.
+#obtener_cantidad_vidrio_por_dia(self, fecha): Calcula y devuelve la cantidad total de vidrio recolectado en un día específico.
+#obtener_cantidad_metal_por_dia(self, fecha): Calcula y devuelve la cantidad total de metal recolectado en un día específico.
+#obtener_cantidad_plastico_por_dia(self, fecha): Calcula y devuelve la cantidad total de plástico recolectado en un día específico.
+#`obtener_cantidad_residuos
 class TrashCity:
     _instance = None
 
@@ -120,7 +147,7 @@ class TrashCity:
         return total_papel
     
 
-#Prueba unitaria
+
     
 
 
