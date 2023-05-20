@@ -1,0 +1,70 @@
+import unittest
+from datetime import datetime
+from parcial_2 import PuntoGeografico, Turno, Camion, Persona, CentroAcopio, TrashCity
+
+class TestTrashCity(unittest.TestCase):
+
+    def setUp(self):
+        # Crear instancias necesarias para la prueba
+        self.punto_geografico = PuntoGeografico(10.1234, -45.6789)
+        self.turno = Turno("Ruta 1", Camion(Persona("123456789", "Conductor 1"), [Persona("987654321", "Asistente 1")]), datetime(2023, 5, 19, 8, 0, 0), datetime(2023, 5, 19, 17, 0, 0))
+        self.centro_acopio = CentroAcopio()
+        self.trash_city = TrashCity()
+
+    def test_agregar_registro(self):
+        # Agregar un registro al turno
+        self.turno.agregar_registro(self.punto_geografico, datetime.now())
+
+        # Verificar que el registro se agregó correctamente
+        registros = self.turno.obtener_registros()
+        self.assertEqual(len(registros), 1)
+        self.assertEqual(registros[0][0], self.punto_geografico)
+        self.assertIsNotNone(registros[0][1])
+
+    def test_agregar_registro_centro_acopio(self):
+        # Agregar un registro al centro de acopio
+        self.centro_acopio.agregar_registro("Vidrio", 1.5)
+
+        # Verificar que el registro se agregó correctamente
+        registros = self.centro_acopio.obtener_registro_por_tipo("Vidrio")
+        self.assertEqual(registros, 1.5)
+
+    def test_agregar_turno(self):
+        # Agregar un turno a TrashCity
+        self.trash_city.agregar_turno(self.turno)
+
+        # Verificar que el turno se agregó correctamente
+        turnos = self.trash_city.turnos
+        self.assertEqual(len(turnos), 1)
+        self.assertEqual(turnos[0], self.turno)
+
+    def test_obtener_cantidad_vidrio_por_dia(self):
+        # Definir un punto geográfico con atributo "vidrio"
+        self.punto_geografico.vidrio = 2.5
+
+        # Agregar un registro con el punto geográfico al turno
+        self.turno.agregar_registro(self.punto_geografico, datetime.now())
+
+        # Agregar el turno a TrashCity
+        self.trash_city.agregar_turno(self.turno)
+
+        # Obtener la cantidad de vidrio por día para la fecha actual
+        fecha_actual = datetime.now()
+        cantidad_vidrio = self.trash_city.obtener_cantidad_vidrio_por_dia(fecha_actual)
+
+        # Verificar que la cantidad de vidrio sea la esperada
+        self.assertEqual(cantidad_vidrio, 4.1738)
+
+    def test_obtener_cantidad_metal_por_dia(self):
+        # Definir un punto geográfico con atributo "metal"
+        self.punto_geografico.metal = 3.5
+
+        # Agregar un registro con el punto geográfico al turno
+        self.turno.agregar_registro(self.punto_geografico, datetime.now())
+
+        # Agregar el turno a TrashCity
+        self.trash_city.agregar_turno(self.turno)
+
+        # Obtener la cantidad de metal por día para la fecha actual
+        fecha_actual = datetime.now()
+        cantidad_metal
